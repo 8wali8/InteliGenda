@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>IntelliGenda</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="w3-content" style="max-width:100%">
+<div class="w3-row">
+  <div class="w3-white w3-container w3-center" style="height:100%">
+    <div class="w3-padding-64">
+      <h1>Intelligenda</h1>
+    </div>
+    <div class="w3-padding-64">
+    <form id="frm1" class="w3-padding-64 w3-center">
+      Task Name: <input type="text" id="name" name="name"><br>
+      Time (hour): <input type="number" id="time" name="time"><br>
+      Difficulty (1-5): <input type="number" id="hard" name="hard"><br>
+      Due date: <input type="date" id="due-date" name="due-date"><br>
+</form> 
+<button onclick="addTask()">Add Task</button>
+<button onclick="sortTasks()">Sort Tasks</button>
+<p id="demo"></p>
+</div>
+  </div>
+</div>
+<script>
+  let tasks = [];
+  function addTask() {
+    const taskName = document.getElementById("name").value;
+    const time = document.getElementById("time").value;
+    const difficulty = document.getElementById("hard").value;
+    let dueDateInput = new Date(document.getElementById("due-date").value);
+    let dueDate = new Date(dueDateInput.getTime());
+    dueDate.setDate(dueDate.getDate() + 1);
+    const today = new Date();
+    const diffTime = Math.abs(dueDate - today);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    document.getElementById("demo").innerHTML = "Task added to list";
+    document.getElementById("name").value = "";
+    document.getElementById("time").value = "";
+    document.getElementById("hard").value = "";
+    document.getElementById("due-date").value = "";
+  }
+  function sortTasks() {
+  tasks.forEach(task => {
+    task[4] = (task[1] * task[2]) / task[4];
+  });
+  tasks.sort((a, b) => {
+    return b[4] - a[4];
+  });
+  document.getElementById("demo").innerHTML = tasks;
+}
+</script>
+</body>
+</html>
